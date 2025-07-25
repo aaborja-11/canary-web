@@ -1,0 +1,32 @@
+<div class="center-container">
+  <mat-card class="content-box">
+    <h2>Login</h2>
+    <form (ngSubmit)="submit()" [formGroup]="loginForm">
+      <div class="form-field">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Username</mat-label>
+          <input matInput formControlName="username" />
+          <mat-error *ngIf="loginForm.get('username')?.hasError('invalid')">
+            {{ loginForm.get("username")?.getError("invalid") }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-field">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" formControlName="password" />
+          <mat-error *ngIf="loginForm.get('password')?.hasError('invalid')">
+            {{ loginForm.get("password")?.getError("invalid") }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="full-width">
+        <button matButton="tonal" type="submit" class="full-width">
+          Submit
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>

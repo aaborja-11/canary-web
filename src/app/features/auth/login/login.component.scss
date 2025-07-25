@@ -1,0 +1,22 @@
+.full-width {
+  width: 100%;
+}
+
+mat-card.content-box {
+  width: 320px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.center-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-field {
+  margin-bottom: 16px;
+}
