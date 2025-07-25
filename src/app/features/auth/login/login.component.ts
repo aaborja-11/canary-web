@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, NgZone, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
 import { AccountLoginRequest } from '../../../core/models/account-login-request.model';
@@ -16,17 +16,31 @@ import { Account } from '../../../core/models/account.model';
   styleUrl: './login.component.scss',
   standalone: false,
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  errorMessage: string = '';
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private cd: ChangeDetectorRef
+  ) {
     this.loginForm = this.fb.group({
       username: [''],
       password: [''],
     });
   }
+  ngOnInit(): void {
+    this.loginForm.valueChanges.subscribe(() => {
+      if (this.errorMessage) {
+        this.errorMessage = '';
+      }
+    });
+  }
 
   submit() {
+    this.errorMessage = '';
+
     this.authService
       .login(this.loginForm.value as AccountLoginRequest)
       .subscribe({
@@ -34,7 +48,7 @@ export class LoginComponent {
           console.log(response);
         },
         error: (error: ApiResponse<ErrorDetails>) => {
-          error.data.errors.forEach((e: Error) => {
+          error.data.errors?.forEach((e: Error) => {
             const control = this.loginForm.get(e.field);
             if (control) {
               control.setErrors({ invalid: e.message });
@@ -42,8 +56,10 @@ export class LoginComponent {
             }
           });
 
-          console.log(this.loginForm.get('username')?.hasError('invalid'));
-          console.log(this.loginForm.get('password')?.hasError('invalid'));
+          if (!error.data.errors) {
+            this.errorMessage = error.data.message;
+            this.cd.markForCheck();
+          }
         },
       });
   }
