@@ -2,13 +2,13 @@ import { ChangeDetectorRef, Component, NgZone, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
 import { AccountLoginRequest } from '../../../core/models/account-login-request.model';
-import { error } from 'console';
 import {
   ApiResponse,
   Error,
   ErrorDetails,
 } from '../../../core/models/api-response.model';
 import { Account } from '../../../core/models/account.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +23,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private router: Router
   ) {
     this.loginForm = this.fb.group({
       username: [''],
@@ -45,7 +46,7 @@ export class LoginComponent implements OnInit {
       .login(this.loginForm.value as AccountLoginRequest)
       .subscribe({
         next: (response: ApiResponse<Account>) => {
-          console.log(response);
+          this.router.navigate(['/dashboard']);
         },
         error: (error: ApiResponse<ErrorDetails>) => {
           error.data.errors?.forEach((e: Error) => {
