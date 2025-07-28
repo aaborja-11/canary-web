@@ -22,9 +22,7 @@ export const httpErrorInterceptor: HttpInterceptorFn = (
         error.error.data = {};
       }
 
-      error.error.data.message =
-        error?.error?.data?.message ??
-        'Unknown error. Please contact administrator.';
+      error.error.data.message = error?.error?.data?.message ?? 'Unknown error';
 
       return throwError(() => error.error);
     })

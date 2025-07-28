@@ -1,6 +1,12 @@
-import { ChangeDetectorRef, Component, NgZone, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  NgZone,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../../core/services/auth.service';
+import { AuthService } from '../services/auth.service';
 import { AccountLoginRequest } from '../../../core/models/account-login-request.model';
 import {
   ApiResponse,
@@ -9,6 +15,8 @@ import {
 } from '../../../core/models/api-response.model';
 import { Account } from '../../../core/models/account.model';
 import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
+import { AccountStorageService } from '../../../core/services/account-storage.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +24,8 @@ import { Router } from '@angular/router';
   styleUrl: './login.component.scss',
   standalone: false,
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
   loginForm: FormGroup;
   errorMessage: string = '';
 
@@ -24,15 +33,17 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private cd: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private accountStorageService: AccountStorageService
   ) {
     this.loginForm = this.fb.group({
       username: [''],
       password: [''],
     });
   }
+
   ngOnInit(): void {
-    this.loginForm.valueChanges.subscribe(() => {
+    this.loginForm.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
       if (this.errorMessage) {
         this.errorMessage = '';
       }
@@ -44,8 +55,10 @@ export class LoginComponent implements OnInit {
 
     this.authService
       .login(this.loginForm.value as AccountLoginRequest)
+      .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response: ApiResponse<Account>) => {
+          this.accountStorageService.setAccount(response.data);
           this.router.navigate(['/dashboard']);
         },
         error: (error: ApiResponse<ErrorDetails>) => {
@@ -63,5 +76,10 @@ export class LoginComponent implements OnInit {
           }
         },
       });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

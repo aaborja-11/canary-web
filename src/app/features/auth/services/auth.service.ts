@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AccountLoginRequest } from '../models/account-login-request.model';
+import { AccountLoginRequest } from '../../../core/models/account-login-request.model';
 import { Observable, of } from 'rxjs';
-import { ApiResponse } from '../models/api-response.model';
-import { Account } from '../models/account.model';
-import { environment } from '../../../environments/environment';
+import { ApiResponse } from '../../../core/models/api-response.model';
+import { Account } from '../../../core/models/account.model';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
