@@ -1,7 +1,5 @@
-import { UUID } from 'crypto';
-
 export interface Account {
-  id: UUID;
+  id: string;
   firstname: string;
   lastname: string;
   username: string;

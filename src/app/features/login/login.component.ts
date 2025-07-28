@@ -11,22 +11,23 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { AuthService } from '../services/auth.service';
-import { AccountLoginRequest } from '../../../core/models/account-login-request.model';
-import {
-  ApiResponse,
-  Error,
-  ErrorDetails,
-} from '../../../core/models/api-response.model';
-import { Account } from '../../../core/models/account.model';
+
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
-import { AccountStorageService } from '../../../core/services/account-storage.service';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { AccountLoginRequest } from '../../core/models/account-login-request.model';
+import {
+  ApiResponse,
+  ErrorDetails,
+  Error,
+} from '../../core/models/api-response.model';
+import { Account } from '../../core/models/account.model';
+import { LoginService } from './services/login.service';
+import { AccountStorageService } from '../../core/services/account-storage.service';
 
 @Component({
   selector: 'app-login',
@@ -49,7 +50,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
+    private loginService: LoginService,
     private cd: ChangeDetectorRef,
     private router: Router,
     private accountStorageService: AccountStorageService
@@ -71,7 +72,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   submit() {
     this.errorMessage = '';
 
-    this.authService
+    this.loginService
       .login(this.loginForm.value as AccountLoginRequest)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
