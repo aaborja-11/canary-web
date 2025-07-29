@@ -78,7 +78,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (response: ApiResponse<Account>) => {
           this.accountStorageService.setAccount(response.data);
-          //this.router.navigate(['/dashboard']);
+          this.router.navigate(['/']);
         },
         error: (error: ApiResponse<ErrorDetails>) => {
           error.data.errors?.forEach((e: Error) => {
