@@ -1,10 +1,18 @@
 import { Component } from '@angular/core';
 import { HeaderComponent } from './header/header.component';
-import { RouterOutlet } from '@angular/router';
+import { RouterModule, RouterOutlet } from '@angular/router';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
 
 @Component({
   selector: 'app-main',
-  imports: [HeaderComponent, RouterOutlet],
+  imports: [
+    MatSidenavModule,
+    MatListModule,
+    HeaderComponent,
+    RouterOutlet,
+    RouterModule,
+  ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
 })

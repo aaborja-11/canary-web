@@ -16,6 +16,13 @@ export const routes: Routes = [
             (m) => m.DashboardComponent
           ),
       },
+      {
+        path: 'account',
+        loadComponent: () =>
+          import('./features/main/account/account.component').then(
+            (m) => m.AccountComponent
+          ),
+      },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
   },

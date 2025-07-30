@@ -1,5 +1,10 @@
 <mat-toolbar>
-  <button matIconButton class="header-icon" aria-label="Menu icon">
+  <button
+    matIconButton
+    class="header-icon"
+    aria-label="Menu icon"
+    (click)="sidenav.toggle()"
+  >
     <mat-icon>menu</mat-icon>
   </button>
   <span>Canary</span>
