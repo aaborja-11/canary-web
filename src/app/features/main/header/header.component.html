@@ -5,23 +5,12 @@
     aria-label="Menu icon"
     (click)="sidenav.toggle()"
   >
-    <mat-icon>menu</mat-icon>
+    <mat-icon>{{ sidenav.opened ? "close" : "menu" }}</mat-icon>
   </button>
   <span>Canary</span>
   <span class="header-spacer"></span>
   <!-- Account Menu -->
-  <button matIconButton [matMenuTriggerFor]="accountMenu">
-    <mat-icon>manage_accounts</mat-icon>
+  <button matIconButton class="header-icon" (click)="logout()">
+    <mat-icon>logout</mat-icon>
   </button>
-
-  <mat-menu #accountMenu="matMenu">
-    <button mat-menu-item>
-      <mat-icon>person</mat-icon>
-      <span>Account</span>
-    </button>
-    <button mat-menu-item (click)="logout()">
-      <mat-icon>logout</mat-icon>
-      <span>Logout</span>
-    </button>
-  </mat-menu>
 </mat-toolbar>

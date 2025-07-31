@@ -31,3 +31,40 @@ html {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.elevated-card {
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2) !important;
+  border-radius: 4px !important;
+}
+
+.card-divider {
+  border: none;
+  height: 1.5px;
+  background-color: #ccc;
+  margin: 16px 8px;
+}
+
+.mt-10px {
+    margin-top: 10px;
+}
+
+.mb-10px {
+    margin-top: 10px;
+}
+
+.m-10px {
+  margin: 10px;
+}
+
+.m-5px {
+  margin: 5px;
+}
+
+.card-container {
+  display: flex;
+  justify-content: center; 
+}
+
+.full-width {
+  width: 100%;
+}
