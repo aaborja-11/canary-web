@@ -6,9 +6,24 @@
       </mat-card-header>
       <hr class="card-divider" />
       <mat-card-content>
+        <mat-form-field appearance="outline" class="m-5px">
+          <mat-label>Firstname</mat-label>
+          <input matInput formControlName="firstname" />
+          <mat-error> testasdasd </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="m-5px">
+          <mat-label>Lastname</mat-label>
+          <input matInput formControlName="lastname" />
+          <mat-error> testasdasd </mat-error>
+        </mat-form-field>
+
+        <br />
+
         <mat-form-field appearance="outline" class="m-5px full-width">
           <mat-label>Username</mat-label>
           <input matInput formControlName="username" />
+          <mat-error> testasdasd </mat-error>
         </mat-form-field>
 
         <br />
@@ -16,6 +31,7 @@
         <mat-form-field appearance="outline" class="m-5px">
           <mat-label>Password</mat-label>
           <input matInput type="password" formControlName="password" />
+          <mat-error> testasdasd </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="m-5px">

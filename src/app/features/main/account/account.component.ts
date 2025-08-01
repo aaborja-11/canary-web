@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { AccountStorageService } from '../../../core/services/account-storage.service';
 
 @Component({
   selector: 'app-account',
@@ -27,15 +28,18 @@ import { MatInputModule } from '@angular/material/input';
 export class AccountComponent {
   accountForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
-    this.accountForm = this.fb.group(
-      {
-        username: ['', Validators.required],
-        password: ['', [Validators.required, Validators.minLength(6)]],
-        confirmPassword: ['', Validators.required],
-      },
-      { validators: this.passwordsMatchValidator }
-    );
+  constructor(
+    private fb: FormBuilder,
+    private accountStorageService: AccountStorageService
+  ) {
+    const account = this.accountStorageService.getAccount();
+    this.accountForm = this.fb.nonNullable.group({
+      firstname: [account?.firstname, Validators.required],
+      lastname: [account?.lastname, Validators.required],
+      username: [account?.username, Validators.required],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', Validators.required],
+    });
   }
 
   passwordsMatchValidator(form: FormGroup) {
