@@ -16,6 +16,10 @@ export class AccountStorageService {
     return accountData ? JSON.parse(accountData) : null;
   }
 
+  getAccountId(): string {
+    return this.getAccount()?.id || '';
+  }
+
   clearAccount(): void {
     localStorage.removeItem(this.key);
   }

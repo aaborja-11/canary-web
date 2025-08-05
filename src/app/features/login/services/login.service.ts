@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { AccountLoginRequest } from '../../../core/models/account-login-request.model';
+import { AccountLoginRequest } from '../models/account-login-request.model';
 import { Observable } from 'rxjs';
 import { ApiResponse } from '../../../core/models/api-response.model';
 import { Account } from '../../../core/models/account.model';

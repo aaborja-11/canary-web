@@ -1,55 +1,126 @@
 <div class="card-container">
-  <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
-    <mat-card appearance="outlined" class="elevated-card">
-      <mat-card-header>
-        <mat-card-title>Account</mat-card-title>
-      </mat-card-header>
-      <hr class="card-divider" />
-      <mat-card-content>
-        <mat-form-field appearance="outline" class="m-5px">
-          <mat-label>Firstname</mat-label>
-          <input matInput formControlName="firstname" />
-          <mat-error> testasdasd </mat-error>
-        </mat-form-field>
+  <mat-card appearance="outlined" class="elevated-card">
+    <mat-card-header>
+      <mat-card-title>Account</mat-card-title>
+    </mat-card-header>
+    <hr class="card-divider" />
+    <mat-card-content>
+      <mat-accordion>
+        <mat-expansion-panel
+          (opened)="panelOpenState.set(true)"
+          (closed)="panelOpenState.set(false)"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title> Account update </mat-panel-title>
+          </mat-expansion-panel-header>
+          <form [formGroup]="accountForm" (ngSubmit)="updateAccountDetails()">
+            <mat-form-field appearance="outline" class="m-5px">
+              <mat-label>Firstname</mat-label>
+              <input matInput formControlName="firstname" />
+              <mat-error
+                *ngIf="
+                  accountForm.get('firstname')?.hasError('required') &&
+                  accountForm.get('firstname')?.touched
+                "
+              >
+                Firstname is required
+              </mat-error>
+              <mat-error
+                *ngIf="
+                  accountForm.get('firstname')?.hasError('invalid') &&
+                  accountForm.get('firstname')?.touched
+                "
+              >
+                {{ accountForm.get("firstname")?.getError("invalid") }}
+              </mat-error>
+            </mat-form-field>
 
-        <mat-form-field appearance="outline" class="m-5px">
-          <mat-label>Lastname</mat-label>
-          <input matInput formControlName="lastname" />
-          <mat-error> testasdasd </mat-error>
-        </mat-form-field>
+            <mat-form-field appearance="outline" class="m-5px">
+              <mat-label>Lastname</mat-label>
+              <input matInput formControlName="lastname" />
+              <mat-error
+                *ngIf="
+                  accountForm.get('lastname')?.hasError('required') &&
+                  accountForm.get('lastname')?.touched
+                "
+              >
+                Lastname is required
+              </mat-error>
+              <mat-error
+                *ngIf="
+                  accountForm.get('lastname')?.hasError('invalid') &&
+                  accountForm.get('lastname')?.touched
+                "
+              >
+                {{ accountForm.get("lastname")?.getError("invalid") }}
+              </mat-error>
+            </mat-form-field>
 
-        <br />
+            <br />
 
-        <mat-form-field appearance="outline" class="m-5px full-width">
-          <mat-label>Username</mat-label>
-          <input matInput formControlName="username" />
-          <mat-error> testasdasd </mat-error>
-        </mat-form-field>
+            <mat-form-field appearance="outline" class="m-5px full-width">
+              <mat-label>Username</mat-label>
+              <input matInput formControlName="username" />
+              <mat-error
+                *ngIf="
+                  accountForm.get('username')?.hasError('required') &&
+                  accountForm.get('username')?.touched
+                "
+              >
+                Username is required
+              </mat-error>
+              <mat-error
+                *ngIf="
+                  accountForm.get('username')?.hasError('invalid') &&
+                  accountForm.get('username')?.touched
+                "
+              >
+                {{ accountForm.get("username")?.getError("invalid") }}
+              </mat-error>
+            </mat-form-field>
 
-        <br />
+            <br />
 
-        <mat-form-field appearance="outline" class="m-5px">
-          <mat-label>Password</mat-label>
-          <input matInput type="password" formControlName="password" />
-          <mat-error> testasdasd </mat-error>
-        </mat-form-field>
+            <mat-form-field appearance="outline" class="m-5px full-width">
+              <mat-label>Password</mat-label>
+              <input matInput type="password" formControlName="password" />
+              <mat-error
+                *ngIf="
+                  accountForm.get('password')?.hasError('required') &&
+                  accountForm.get('password')?.touched
+                "
+              >
+                Password is required
+              </mat-error>
+              <mat-error
+                *ngIf="
+                  accountForm.get('password')?.hasError('invalid') &&
+                  accountForm.get('password')?.touched
+                "
+              >
+                {{ accountForm.get("password")?.getError("invalid") }}
+              </mat-error>
+            </mat-form-field>
 
-        <mat-form-field appearance="outline" class="m-5px">
+            <br />
+
+            <button
+              class="m-5px full-width"
+              matButton="tonal"
+              color="primary"
+              type="submit"
+              [disabled]="accountForm.invalid"
+            >
+              Submit
+            </button>
+          </form>
+        </mat-expansion-panel>
+      </mat-accordion>
+
+      <!-- <mat-form-field appearance="outline" class="m-5px">
           <mat-label>Confirm Password</mat-label>
           <input matInput type="password" formControlName="confirmPassword" />
-        </mat-form-field>
-      </mat-card-content>
-      <mat-card-actions>
-        <button
-          class="m-5px full-width"
-          matButton="tonal"
-          color="primary"
-          type="submit"
-          [disabled]="accountForm.invalid"
-        >
-          Submit
-        </button>
-      </mat-card-actions>
-    </mat-card>
-  </form>
+        </mat-form-field> -->
+    </mat-card-content>
+  </mat-card>
 </div>
