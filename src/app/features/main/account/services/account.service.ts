@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../../environments/environment';
 import { AccountModificationRequest } from '../models/account-modification-request.model';
-import { ApiResponse } from '../../../../core/models/api-response.model';
+import { ApiResponse } from '../../../../shared/models/api-response.model';
 import { Observable } from 'rxjs';
-import { Account } from '../../../../core/models/account.model';
+import { Account } from '../../../../shared/models/account.model';
 
 @Injectable({
   providedIn: 'root',

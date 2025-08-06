@@ -3,8 +3,8 @@ import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { AccountLoginRequest } from '../models/account-login-request.model';
 import { Observable } from 'rxjs';
-import { ApiResponse } from '../../../core/models/api-response.model';
-import { Account } from '../../../core/models/account.model';
+import { ApiResponse } from '../../../shared/models/api-response.model';
+import { Account } from '../../../shared/models/account.model';
 
 @Injectable({
   providedIn: 'root',

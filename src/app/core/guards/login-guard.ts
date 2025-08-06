@@ -1,5 +1,5 @@
 import { CanActivateFn, Router } from '@angular/router';
-import { AccountStorageService } from '../services/account-storage.service';
+import { AccountStorageService } from '../../shared/services/account-storage.service';
 import { inject } from '@angular/core';
 
 export const loginGuard: CanActivateFn = (route, state) => {

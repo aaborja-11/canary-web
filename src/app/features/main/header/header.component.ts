@@ -3,7 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { AccountStorageService } from '../../../core/services/account-storage.service';
+import { AccountStorageService } from '../../../shared/services/account-storage.service';
 import { Router } from '@angular/router';
 import { MatSidenav } from '@angular/material/sidenav';
 

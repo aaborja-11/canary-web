@@ -113,6 +113,12 @@
             >
               Submit
             </button>
+
+            <div class="full-width mt-10px mb-10px">
+              <mat-error *ngIf="errorMessage">
+                {{ errorMessage }}
+              </mat-error>
+            </div>
           </form>
         </mat-expansion-panel>
       </mat-accordion>

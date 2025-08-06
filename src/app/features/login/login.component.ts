@@ -24,10 +24,11 @@ import {
   ApiResponse,
   ErrorDetails,
   Error,
-} from '../../core/models/api-response.model';
-import { Account } from '../../core/models/account.model';
+} from '../../shared/models/api-response.model';
+import { Account } from '../../shared/models/account.model';
 import { LoginService } from './services/login.service';
-import { AccountStorageService } from '../../core/services/account-storage.service';
+import { AccountStorageService } from '../../shared/services/account-storage.service';
+import { FormFieldService } from '../../shared/services/form-field.service';
 
 @Component({
   selector: 'app-login',
@@ -53,7 +54,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private loginService: LoginService,
     private cd: ChangeDetectorRef,
     private router: Router,
-    private accountStorageService: AccountStorageService
+    private accountStorageService: AccountStorageService,
+    private formFieldService: FormFieldService
   ) {
     this.loginForm = this.fb.group({
       username: [''],
@@ -81,13 +83,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.router.navigate(['/']);
         },
         error: (error: ApiResponse<ErrorDetails>) => {
-          error.data.errors?.forEach((e: Error) => {
-            const control = this.loginForm.get(e.field);
-            if (control) {
-              control.setErrors({ invalid: e.message });
-              control.markAsTouched();
-            }
-          });
+          this.formFieldService.showErrorMessage(this.loginForm, error.data);
 
           if (!error.data.errors) {
             this.errorMessage = error.data.message;

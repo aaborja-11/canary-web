@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, signal } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -10,7 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { AccountStorageService } from '../../../core/services/account-storage.service';
+import { AccountStorageService } from '../../../shared/services/account-storage.service';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { AccountModificationRequest } from './models/account-modification-request.model';
 import { AccountService } from './services/account.service';
@@ -18,8 +18,10 @@ import { Subject, takeUntil } from 'rxjs';
 import {
   ApiResponse,
   ErrorDetails,
-} from '../../../core/models/api-response.model';
-import { Account } from '../../../core/models/account.model';
+} from '../../../shared/models/api-response.model';
+import { Account } from '../../../shared/models/account.model';
+import { FormFieldService } from '../../../shared/services/form-field.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-account',
@@ -37,20 +39,24 @@ import { Account } from '../../../core/models/account.model';
 })
 export class AccountComponent {
   readonly panelOpenState = signal(false);
-  private destroy$ = new Subject<void>();
+  private destroy = new Subject<void>();
+  private snackbar = inject(MatSnackBar);
   accountForm: FormGroup;
+  errorMessage: string = '';
 
   constructor(
     private fb: FormBuilder,
     private accountStorageService: AccountStorageService,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private formFieldService: FormFieldService,
+    private cd: ChangeDetectorRef
   ) {
     const account = this.accountStorageService.getAccount();
     this.accountForm = this.fb.group({
       firstname: [account?.firstname, Validators.required],
       lastname: [account?.lastname, Validators.required],
       username: [account?.username, Validators.required],
-      password: ['', [Validators.required]],
+      password: ['', Validators.required],
     });
   }
 
@@ -61,6 +67,7 @@ export class AccountComponent {
 
   updateAccountDetails() {
     if (this.accountForm.valid) {
+      this.errorMessage = '';
       const accountId = this.accountStorageService.getAccountId();
 
       this.accountService
@@ -68,18 +75,31 @@ export class AccountComponent {
           accountId,
           this.accountForm.value as AccountModificationRequest
         )
-        .pipe(takeUntil(this.destroy$))
+        .pipe(takeUntil(this.destroy))
         .subscribe({
           next: (response: ApiResponse<Account>) => {
             this.accountStorageService.setAccount(response.data);
+            this.snackbar.open('Account successfully updated', 'OK', {
+              duration: 3000,
+            });
           },
-          error: (error: ApiResponse<ErrorDetails>) => {},
+          error: (error: ApiResponse<ErrorDetails>) => {
+            this.formFieldService.showErrorMessage(
+              this.accountForm,
+              error.data
+            );
+
+            if (!error.data.errors) {
+              this.errorMessage = error.data.message;
+              this.cd.markForCheck();
+            }
+          },
         });
     }
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+    this.destroy.next();
+    this.destroy.complete();
   }
 }
